@@ -1,0 +1,24 @@
+{
+  "name": "hermes-reactor-desktop",
+  "version": "0.2.0",
+  "private": true,
+  "description": "Desktop half of the Reactor plugin for Hermes Agent: reactor, agents panel and approval cards. Built into desktop/plugin.js.",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "test": "vitest run",
+    "build": "node scripts/build.mjs",
+    "build:check": "node scripts/build.mjs --check",
+    "harness": "node scripts/build-harness.mjs",
+    "verify": "npm test && npm run build && npm run build:check"
+  },
+  "devDependencies": {
+    "esbuild": "0.28.2",
+    "react": "19.3.1",
+    "react-dom": "19.3.1",
+    "vitest": "5.1.0"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

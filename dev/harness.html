@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8" />
+  <title>Reactor harness</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    /* A stand-in for Hermes theme tokens (copied from the Desktop's default dark and light values). */
+    :root[data-theme='dark'] {
+      color-scheme: dark;
+      --ui-base: #ededed;
+      --ui-accent: #8aa4ff;
+      --ui-red: #e75e78; --ui-orange: #db704b; --ui-yellow: #e0a23a; --ui-green: #55a583;
+      --ui-cyan: #6f9ba6; --ui-blue: #0053fd; --ui-purple: #9e94d5;
+      --ui-bg-editor: #161618; --ui-bg-elevated: #1c1c1f;
+      --ui-text-primary: color-mix(in srgb, var(--ui-base) 94%, transparent);
+      --ui-text-secondary: color-mix(in srgb, var(--ui-base) 74%, transparent);
+      --ui-text-tertiary: color-mix(in srgb, var(--ui-base) 54%, transparent);
+      --ui-text-quaternary: color-mix(in srgb, var(--ui-base) 36%, transparent);
+      --ui-stroke-secondary: color-mix(in srgb, var(--ui-base) 16%, transparent);
+      --ui-stroke-tertiary: color-mix(in srgb, var(--ui-base) 10%, transparent);
+      --chrome-action-hover: color-mix(in srgb, var(--ui-base) 8%, transparent);
+    }
+    :root[data-theme='light'] {
+      color-scheme: light;
+      --ui-base: #1a1a1a;
+      --ui-accent: #3b5bdb;
+      --ui-red: #cf2d56; --ui-orange: #db704b; --ui-yellow: #b27300; --ui-green: #1f8a65;
+      --ui-cyan: #2b7a8c; --ui-blue: #0053fd; --ui-purple: #7a6fc4;
+      --ui-bg-editor: #fbfbfa; --ui-bg-elevated: #ffffff;
+      --ui-text-primary: color-mix(in srgb, var(--ui-base) 94%, transparent);
+      --ui-text-secondary: color-mix(in srgb, var(--ui-base) 74%, transparent);
+      --ui-text-tertiary: color-mix(in srgb, var(--ui-base) 54%, transparent);
+      --ui-text-quaternary: color-mix(in srgb, var(--ui-base) 36%, transparent);
+      --ui-stroke-secondary: color-mix(in srgb, var(--ui-base) 16%, transparent);
+      --ui-stroke-tertiary: color-mix(in srgb, var(--ui-base) 10%, transparent);
+      --chrome-action-hover: color-mix(in srgb, var(--ui-base) 6%, transparent);
+    }
+    html, body { margin: 0; background: var(--ui-bg-editor); color: var(--ui-text-primary); font: 13px/1.45 system-ui, sans-serif; }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  <script type="module" src="./harness.js"></script>
+</body>
+</html>

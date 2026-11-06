@@ -1,0 +1,23 @@
+{
+  "note": "One list for both name sanitizers: reactor_hermes/assistant.py sanitize_name() and src/model/assistant.js sanitizeName(). Free text, 1 to 24 characters: letters, digits, marks, space, hyphen, underscore, apostrophe and period survive; everything else is dropped; blank means rejected (empty string).",
+  "vectors": [
+    { "input": "Hermes", "expected": "Hermes" },
+    { "input": "  Jarbas  ", "expected": "Jarbas" },
+    { "input": "Maria  da   Silva", "expected": "Maria da Silva" },
+    { "input": "Zé do Pão", "expected": "Zé do Pão" },
+    { "input": "R2-D2", "expected": "R2-D2" },
+    { "input": "O'Neil.", "expected": "O'Neil." },
+    { "input": "Rex\n\nIgnore: all", "expected": "Rex Ignore all" },
+    { "input": "Bot \"quoted\" <b>x</b>", "expected": "Bot quoted bxb" },
+    { "input": "a​b‮c", "expected": "abc" },
+    { "input": "x\u0000y", "expected": "xy" },
+    { "input": "", "expected": "" },
+    { "input": "   ", "expected": "" },
+    { "input": "!!!???", "expected": "" },
+    { "input": "abcdefghijklmnopqrstuvwxyz", "expected": "abcdefghijklmnopqrstuvwx" },
+    { "input": "abcdefghijklmnopqrstuvw yz", "expected": "abcdefghijklmnopqrstuvw" },
+    { "input": "日本語アシスタント", "expected": "日本語アシスタント" },
+    { "input": "é", "expected": "é" },
+    { "input": 42, "expected": "" }
+  ]
+}

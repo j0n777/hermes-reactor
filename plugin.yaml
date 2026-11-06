@@ -1,0 +1,21 @@
+name: hermes-reactor
+version: "0.2.0"
+manifest_version: 2
+description: "Reactor: a live agent graph, voice-requested screens, a named assistant, Claude Code and Codex session cards and plain-language approval cards for Hermes Desktop. Descends from the author's Jarbas project."
+author: "Jonata Ribas"
+license: MIT
+requires_hermes: ">=0.23.0"
+tags: [voice, desktop, coding-agents, approvals]
+provides_tools:
+  - reactor_list_sessions
+  - reactor_session_brief
+  - reactor_continue_session
+  - reactor_explain_risk
+  - reactor_show
+  - reactor_ask_profile
+provides_hooks:
+  - pre_llm_call
+  - kanban_task_claimed
+  - kanban_task_completed
+  - kanban_task_blocked
+  - on_kanban_task_updated

@@ -1,0 +1,10 @@
+{
+  "name": "hermes-reactor",
+  "label": "Reactor",
+  "description": "Backend for the Reactor Desktop cards: pending session continuations, released by a person click.",
+  "icon": "Zap",
+  "version": "0.1.0",
+  "tab": { "path": "/hermes-reactor", "hidden": true },
+  "slots": [],
+  "api": "plugin_api.py"
+}

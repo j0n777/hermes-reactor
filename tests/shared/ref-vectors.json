@@ -1,0 +1,26 @@
+{
+  "note": "id = sha256(f'{agent}:{path}') as in hermes_cli/foreign_sessions_browser.py; ref = first 12 hex digits. Read by tests/py/test_ref_contract.py and tests/js/ref-contract.test.js.",
+  "vectors": [
+    {
+      "agent": "claude",
+      "session_id": "11111111-2222-3333-4444-555555555555",
+      "path": "E:\\fixture\\claude\\projects\\proj\\11111111-2222-3333-4444-555555555555.jsonl",
+      "id": "4e05ca0ee9378577fc6ce5d2dcb893571adc26094ae74b73dad5b9b8cc8880f3",
+      "ref": "4e05ca0ee937"
+    },
+    {
+      "agent": "codex",
+      "session_id": "99999999-8888-7777-6666-555555555555",
+      "path": "E:\\fixture\\codex\\sessions\\2026\\11\\01\\rollout-2026-11-01T10-00-00-99999999-8888-7777-6666-555555555555.jsonl",
+      "id": "7e58d6c1b0d63560437b0cd7c3b3a46e3808ed097b48396b8f1f684df7904517",
+      "ref": "7e58d6c1b0d6"
+    },
+    {
+      "agent": "claude",
+      "session_id": "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee",
+      "path": "/home/user/.claude/projects/p/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee.jsonl",
+      "id": "3ab6a632f84859421ed3a9fff56711a980b53e0493d0327e86bfc783c2f1d262",
+      "ref": "3ab6a632f848"
+    }
+  ]
+}
