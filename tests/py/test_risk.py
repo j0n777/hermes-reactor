@@ -1,8 +1,21 @@
+import json
 import time
+from pathlib import Path
 
 import pytest
 
 from reactor_hermes.risk import classify
+
+UNSAFE = json.loads((Path(__file__).parent.parent / "shared" / "risk-unsafe-vectors.json").read_text(encoding="utf-8"))
+
+
+@pytest.mark.parametrize("cmd", UNSAFE["filesystem_makers"])
+def test_every_filesystem_maker_gets_the_disk_warning(cmd):
+    assert "disk" in classify(cmd, "en")["does"].lower()
+
+
+def test_mkdir_is_not_a_filesystem_maker():
+    assert "disk" not in (classify("mkdir build", "en")["does"] or "").lower()
 
 SAFE = [
     "ls", "ls -la src", "pwd", "cat README.md", "git status", "git diff --stat", "git log --oneline -5",

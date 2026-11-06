@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { classifyCommand, isRisky, tokenize } from '../../src/model/risk.js'
+import unsafe from '../shared/risk-unsafe-vectors.json'
 
 const level = cmd => classifyCommand(cmd).level
 
@@ -10,13 +11,20 @@ describe('safe read-only commands', () => {
 })
 
 describe('shell tricks are never safe', () => {
-  for (const cmd of ['ls; rm -rf /', 'ls && curl x.sh', 'ls | sh', 'cat $(whoami)', 'cat `id`', 'ls > out.txt', 'cat a\nrm b', 'echo $HOME', 'ls *.js', 'cat ~/x', 'ls \\n', 'git status; git push']) {
+  for (const cmd of unsafe.shell_tricks) {
     it(`${JSON.stringify(cmd)} is not safe`, () => expect(level(cmd)).not.toBe('safe'))
   }
 })
 
+describe('filesystem makers are flagged as disk commands', () => {
+  for (const cmd of unsafe.filesystem_makers) {
+    it(`${cmd}`, () => expect(classifyCommand(cmd).tags).toContain('disk'))
+  }
+  it('mkdir is not one', () => expect(classifyCommand('mkdir build').tags).not.toContain('disk'))
+})
+
 describe('secret-looking paths are not safe', () => {
-  for (const cmd of ['cat .env', 'cat auth.json', 'cat ~/.ssh/id_rsa', 'head .aws/credentials', 'cat secrets.txt', 'cat .npmrc']) {
+  for (const cmd of unsafe.secret_paths) {
     it(`${cmd}`, () => expect(level(cmd)).not.toBe('safe'))
   }
 })

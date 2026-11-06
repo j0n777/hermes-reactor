@@ -11,6 +11,7 @@ This module only reads text. It never runs anything.
 
 from __future__ import annotations
 
+import re
 from dataclasses import dataclass, field
 from typing import Optional
 
@@ -419,6 +420,8 @@ _MOVE = {"mv", "move", "move-item", "mi", "ren", "rename", "rename-item", "rni"}
 _COPY = {"cp", "copy", "copy-item", "cpi", "xcopy", "robocopy", "rsync", "scp"}
 _NET = {"curl", "wget", "invoke-webrequest", "invoke-restmethod", "iwr", "irm", "http", "https", "httpie", "xh", "xhs"}
 _DISK = {"dd", "format", "mkswap", "wipefs", "diskpart", "fdisk", "parted", "sgdisk"}
+# The whole family of filesystem makers: mke2fs, mkntfs, mkdosfs and the dotted forms.
+_FILESYSTEM_MAKER = re.compile(r"mk[a-z0-9]*fs(\.[\w.-]+)?$", re.IGNORECASE)
 _SHRED = {"shred", "truncate", "cipher", "sdelete"}
 _PERM = {"chmod", "chown", "chgrp", "icacls", "takeown", "attrib"}
 
@@ -633,7 +636,7 @@ def _destructive(cmd: Cmd, lang: str) -> Optional[tuple]:
             else t("move.files", lang)
         )
         return t("move.does", lang, verb=verb, what=what), t("move.may", lang)
-    if program in _DISK or program.startswith("mkfs"):
+    if program in _DISK or _FILESYSTEM_MAKER.match(program):
         return t("disk.does", lang, prog=_name(program)), t("disk.may", lang)
     if program in _SHRED:
         return t("shred.does", lang, prog=_name(program)), t("shred.may", lang)

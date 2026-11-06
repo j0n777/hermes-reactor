@@ -14,7 +14,11 @@ const MAX_COMMAND_CHARS = 2000
 const SHELL_META = /[;&|<>`$(){}\n\r\\*?~!#%^]/
 
 // Paths that may hold secrets: even a "read-only" cat of these is not safe to wave through.
-const SECRET_PATH = /(\.env|auth\.json|\.ssh|id_rsa|id_ed25519|credentials|secret|token|\.aws|\.npmrc|\.netrc|\.pypirc|\.git-credentials|\.kube|\.docker|keychain|\.gnupg|passwd|shadow)/i
+const SECRET_PATH_NAMES = [
+  '\\.env', 'auth\\.json', '\\.ssh', 'id_rsa', 'id_ed25519', 'credentials', 'secret', 'token', '\\.aws', '\\.npmrc',
+  '\\.netrc', '\\.pypirc', '\\.git-credentials', '\\.kube', '\\.docker', 'keychain', '\\.gnupg', 'passwd', 'shadow',
+]
+const SECRET_PATH = new RegExp(`(${SECRET_PATH_NAMES.join('|')})`, 'i')
 
 const SAFE_ARG = /^[A-Za-z0-9_./:@+=,-]+$/
 
@@ -115,7 +119,8 @@ const DESTRUCTIVE = [
   ['remote-code', /\b(iex|invoke-expression)\b/i],
   ['remote-code', /\|\s*(sudo\s+)?(ba|z|da|fi)?sh(\s|$)/i],
   ['inline-shell', /(^|[\s;&|(])(bash|sh|zsh|powershell|pwsh|cmd)(\.exe)?\s+[^\n]*(-c|-command|-encodedcommand|\/c)(\s|$)/i],
-  ['disk', /\b(mkfs(\.\w+)?|fdisk|parted|diskpart)\b/i],
+  // The whole family of filesystem makers: mke2fs, mkntfs, mkdosfs and the dotted forms.
+  ['disk', /\b(mk[a-z0-9]*fs(\.\w+)?|fdisk|parted|diskpart)\b/i],
   ['disk', /(^|[\s;&|(])format(\.com)?\s+[a-z]:/i],
   ['disk', /(^|[\s;&|(])dd\s+[^\n]*\b(if|of)=/i],
   ['disk', />\s*\/dev\/(sd|nvme|hd|disk|mem)/i],

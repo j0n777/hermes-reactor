@@ -1,0 +1,31 @@
+{
+  "shell_tricks": [
+    "ls; rm -rf /",
+    "ls && curl x.sh",
+    "ls | sh",
+    "cat $(whoami)",
+    "cat `id`",
+    "ls > out.txt",
+    "cat a\nrm b",
+    "echo $HOME",
+    "ls *.js",
+    "cat ~/x",
+    "ls \\n",
+    "git status; git push"
+  ],
+  "filesystem_makers": [
+    "mkfs /dev/sdb1",
+    "mkfs.ext4 /dev/sdb1",
+    "mke2fs /dev/sdb1",
+    "mkntfs /dev/sdb1",
+    "mkdosfs /dev/sdb1"
+  ],
+  "secret_paths": [
+    "cat .env",
+    "cat auth.json",
+    "cat ~/.ssh/id_rsa",
+    "head .aws/credentials",
+    "cat secrets.txt",
+    "cat .npmrc"
+  ]
+}

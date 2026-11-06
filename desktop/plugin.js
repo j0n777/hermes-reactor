@@ -274,7 +274,28 @@ function panelKind(state, gateway, filter, now, t) {
 // src/model/risk.js
 var MAX_COMMAND_CHARS = 2e3;
 var SHELL_META = /[;&|<>`$(){}\n\r\\*?~!#%^]/;
-var SECRET_PATH = /(\.env|auth\.json|\.ssh|id_rsa|id_ed25519|credentials|secret|token|\.aws|\.npmrc|\.netrc|\.pypirc|\.git-credentials|\.kube|\.docker|keychain|\.gnupg|passwd|shadow)/i;
+var SECRET_PATH_NAMES = [
+  "\\.env",
+  "auth\\.json",
+  "\\.ssh",
+  "id_rsa",
+  "id_ed25519",
+  "credentials",
+  "secret",
+  "token",
+  "\\.aws",
+  "\\.npmrc",
+  "\\.netrc",
+  "\\.pypirc",
+  "\\.git-credentials",
+  "\\.kube",
+  "\\.docker",
+  "keychain",
+  "\\.gnupg",
+  "passwd",
+  "shadow"
+];
+var SECRET_PATH = new RegExp(`(${SECRET_PATH_NAMES.join("|")})`, "i");
 var SAFE_ARG = /^[A-Za-z0-9_./:@+=,-]+$/;
 var SAFE_PROGRAMS = /* @__PURE__ */ new Set(["ls", "dir", "pwd", "whoami", "uname", "cat", "head", "tail", "wc", "grep", "stat", "which"]);
 var BARE_ONLY = /* @__PURE__ */ new Set(["hostname", "date"]);
@@ -359,7 +380,8 @@ var DESTRUCTIVE = [
   ["remote-code", /\b(iex|invoke-expression)\b/i],
   ["remote-code", /\|\s*(sudo\s+)?(ba|z|da|fi)?sh(\s|$)/i],
   ["inline-shell", /(^|[\s;&|(])(bash|sh|zsh|powershell|pwsh|cmd)(\.exe)?\s+[^\n]*(-c|-command|-encodedcommand|\/c)(\s|$)/i],
-  ["disk", /\b(mkfs(\.\w+)?|fdisk|parted|diskpart)\b/i],
+  // The whole family of filesystem makers: mke2fs, mkntfs, mkdosfs and the dotted forms.
+  ["disk", /\b(mk[a-z0-9]*fs(\.\w+)?|fdisk|parted|diskpart)\b/i],
   ["disk", /(^|[\s;&|(])format(\.com)?\s+[a-z]:/i],
   ["disk", /(^|[\s;&|(])dd\s+[^\n]*\b(if|of)=/i],
   ["disk", />\s*\/dev\/(sd|nvme|hd|disk|mem)/i],

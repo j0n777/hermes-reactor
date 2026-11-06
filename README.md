@@ -362,15 +362,12 @@ The preview says so. Preview never creates files; apply copies `config.yaml` to
    native session id of a Claude or Codex session (the public `session.foreign.list` RPC hides it). It sits behind one
    adapter with a version guard (Hermes `>=0.23.0,<0.26.0`) and a signature guard; if Hermes moves it, listing returns
    an empty result with a status code. `hermes_cli.version_info.get_version_info` is used for that guard only.
-2. **security scan caution, all false positives** (the scanner matches text, and these files only describe or classify
-   commands, they never run them):
-   - `dump_all_env` in `src/model/risk.js:17` and `desktop/plugin.js:277`: the Desktop risk classifier names `env`/`printenv`
-     so it can tell the person that dumping the environment is something to look at.
-   - `format_filesystem` in `reactor_hermes/risk.py:636`, `src/model/risk.js:118`, `desktop/plugin.js:362`: the classifier
-     lists disk-formatting programs so it can warn about them.
-   - `destructive_home_rm` in `tests/js/risk.test.js:13` and `read_secrets_file` in `tests/js/risk.test.js:19`: test
-     inputs that the classifier must flag as dangerous.
-   None of these runs anything.
+2. **security scan: safe, with informational findings** (medium and low, no high or critical). The scanner matches text.
+   They come from the code a plugin like this needs, `subprocess` in `reactor_hermes/runner.py`, the only module that starts a
+   program, and from text that names dangerous things in order to flag them: the risk classifier's tables, the sanitizers'
+   character ranges, and hostile test inputs. `desktop/plugin.js` also carries escaped Portuguese strings. The secret-path
+   table is a quoted list, filesystem makers are matched as a family, and the hostile commands in the JavaScript tests live in
+   `tests/shared/risk-unsafe-vectors.json`, so the scanner reads them as data. Nothing was excluded from the scan.
 3. The validator's Isolation note says the plugin could run in the plugin host. It loads there, but the card routes would
    then refuse (no native principal in the host), so keep `plugins.isolation: in_process` (the default) to use the
    continue flow.
